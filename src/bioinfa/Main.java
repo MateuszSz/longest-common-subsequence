@@ -68,9 +68,6 @@ public class Main {
         System.out.println("Najlepsze zestawienie lokalne:");
         localAlignments = sq2.getAlignments();
         System.out.println(Arrays.toString(localAlignments));
-        s = rnaAcidTranslator.translateAcidToRna(localAlignments[0]);
-        s1 = rnaAcidTranslator.translateAcidToRna(localAlignments[1]);
-//        System.out.printf("[%s, %s]%n", s, s1);
         System.out.println("Dystans: " + costHandler.getAlignmentDistance(localAlignments));
         System.out.println("Podobieństwo: " + costHandler.getAlignmentSimilarity(localAlignments));
         System.out.println("---------------------------------------------------------");

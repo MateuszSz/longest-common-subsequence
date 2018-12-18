@@ -26,16 +26,16 @@ public class SmithWaterman extends SequenceAlignment {
             score += mismatch;
         }
         if (rowSpaceScore >= colSpaceScore) {
-            compute(currentCell, cellAbove, cellAboveLeft, rowSpaceScore, score);
+            setScore(currentCell, cellAbove, cellAboveLeft, rowSpaceScore, score);
         } else {
-            compute(currentCell, cellToLeft, cellAboveLeft, colSpaceScore, score);
+            setScore(currentCell, cellToLeft, cellAboveLeft, colSpaceScore, score);
         }
         if (currentCell.getScore() > highScoreCell.getScore()) {
             highScoreCell = currentCell;
         }
     }
 
-    private void compute(Cell currentCell, Cell cellToLeft, Cell cellAboveLeft, int colSpaceScore, int score) {
+    private void setScore(Cell currentCell, Cell cellToLeft, Cell cellAboveLeft, int colSpaceScore, int score) {
         if (score >= colSpaceScore) {
             if (score > 0) {
                 currentCell.setScore(score);
@@ -48,7 +48,6 @@ public class SmithWaterman extends SequenceAlignment {
             }
         }
     }
-
 
     @Override
     protected boolean computingIsNotFinished(Cell currentCell) {

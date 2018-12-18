@@ -53,7 +53,6 @@ public abstract class SequenceAlignment {
 
         alignments = new String[]{alignment1.toString(),
                 alignment2.toString()};
-
     }
 
     protected void initialize() {
