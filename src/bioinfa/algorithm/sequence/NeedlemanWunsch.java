@@ -2,18 +2,21 @@ package bioinfa.algorithm.sequence;
 
 public class NeedlemanWunsch extends SequenceAlignment {
 
+    private static final int MISMATCH = -1;
+    private static final int SPACE = -1;
+
     public NeedlemanWunsch(String sequence1, String sequence2) {
         super(sequence1, sequence2);
     }
 
     protected void fillInCell(Cell currentCell, Cell cellAbove, Cell cellToLeft,
                               Cell cellAboveLeft) {
-        int rowSpaceScore = cellAbove.getScore() + space;
-        int colSpaceScore = cellToLeft.getScore() + space;
+        int rowSpaceScore = cellAbove.getScore() + SPACE;
+        int colSpaceScore = cellToLeft.getScore() + SPACE;
         int score = cellAboveLeft.getScore();
-        if (sequence2.charAt(currentCell.getRow() - 1) != sequence1
-                .charAt(currentCell.getColumn() - 1)) {
-            score += mismatch;
+        if (sequence2.charAt(currentCell.getRowNumber() - 1) != sequence1
+                .charAt(currentCell.getColumnNumber() - 1)) {
+            score += MISMATCH;
         }
         if (rowSpaceScore >= colSpaceScore) {
             setScore(currentCell, cellAbove, cellAboveLeft, rowSpaceScore, score);
@@ -45,9 +48,9 @@ public class NeedlemanWunsch extends SequenceAlignment {
     protected int getInitialScore(int row, int col) {
         int initialScore = 0;
         if (col == 0 && row != 0) {
-            initialScore = row * space;
+            initialScore = row * SPACE;
         } else if (row == 0 && col != 0) {
-            initialScore = col * space;
+            initialScore = col * SPACE;
         }
         return initialScore;
     }

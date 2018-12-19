@@ -2,21 +2,17 @@ package bioinfa.algorithm.sequence;
 
 public abstract class SequenceAlignment {
 
+    private static final int FIRST_POSITION = 0;
     protected String sequence1;
     protected String sequence2;
     protected Cell[][] scoreTable;
     protected String[] alignments;
-    protected int match;
-    protected int mismatch;
-    protected int space;
+
 
     public SequenceAlignment(String sequence1, String sequence2) {
         this.sequence1 = sequence1;
         this.sequence2 = sequence2;
         this.scoreTable = new Cell[sequence2.length() + 1][sequence1.length() + 1];
-        this.match = 1;
-        this.mismatch = -1;
-        this.space = -1;
         this.initialize();
         this.fillIn();
         this.computeAlignment();
@@ -34,19 +30,19 @@ public abstract class SequenceAlignment {
     protected abstract Cell getAlignmentStartingCell();
 
     private void computeAlignment() {
+        Cell currentCell = getAlignmentStartingCell();
         StringBuilder alignment1 = new StringBuilder();
         StringBuilder alignment2 = new StringBuilder();
-        Cell currentCell = getAlignmentStartingCell();
         while (computingIsNotFinished(currentCell)) {
-            if (currentCell.getColumn() - currentCell.getPreviousCell().getColumn() == 1) {
-                alignment1.insert(0, sequence1.charAt(currentCell.getColumn() - 1));
+            if (currentCell.shouldInsertSpaceUsingColumn()) {
+                alignment1.insert(FIRST_POSITION, '-');
             } else {
-                alignment1.insert(0, '-');
+                alignment1.insert(FIRST_POSITION, sequence1.charAt(currentCell.getColumnNumber() - 1));
             }
-            if (currentCell.getRow() - currentCell.getPreviousCell().getRow() == 1) {
-                alignment2.insert(0, sequence2.charAt(currentCell.getRow() - 1));
+            if (currentCell.shouldInsertSpaceUsingRow()) {
+                alignment2.insert(FIRST_POSITION, '-');
             } else {
-                alignment2.insert(0, '-');
+                alignment2.insert(FIRST_POSITION, sequence2.charAt(currentCell.getRowNumber() - 1));
             }
             currentCell = currentCell.getPreviousCell();
         }
@@ -70,9 +66,9 @@ public abstract class SequenceAlignment {
         for (int row = 1; row < scoreTable.length; row++) {
             for (int col = 1; col < scoreTable[row].length; col++) {
                 Cell currentCell = scoreTable[row][col];
-                Cell cellAbove = scoreTable[row - 1][col];
-                Cell cellToLeft = scoreTable[row][col - 1];
                 Cell cellAboveLeft = scoreTable[row - 1][col - 1];
+                Cell cellToLeft = scoreTable[row][col - 1];
+                Cell cellAbove = scoreTable[row - 1][col];
                 fillInCell(currentCell, cellAbove, cellToLeft, cellAboveLeft);
             }
         }
@@ -80,5 +76,16 @@ public abstract class SequenceAlignment {
 
     public String[] getAlignments() {
         return alignments;
+    }
+
+    public void printScoreTable(){
+        for (Cell[] x : scoreTable)
+        {
+            for (Cell y : x)
+            {
+                System.out.print(y + " ");
+            }
+            System.out.println();
+        }
     }
 }

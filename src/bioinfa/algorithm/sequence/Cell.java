@@ -3,12 +3,20 @@ package bioinfa.algorithm.sequence;
 public class Cell {
     private Cell prevCell;
     private int score;
-    private int row;
-    private int column;
+    private int rowNumber;
+    private int columnNumber;
 
-    public Cell(int row, int column) {
-        this.row = row;
-        this.column = column;
+    public Cell(int rowNumber, int columnNumber) {
+        this.rowNumber = rowNumber;
+        this.columnNumber = columnNumber;
+    }
+
+    public boolean shouldInsertSpaceUsingColumn(){
+        return this.columnNumber - this.prevCell.getColumnNumber() == 0;
+    }
+
+    public boolean shouldInsertSpaceUsingRow(){
+        return this.rowNumber - this.prevCell.getRowNumber() == 0;
     }
 
     public void setScore(int score) {
@@ -27,11 +35,16 @@ public class Cell {
         return prevCell;
     }
 
-    public int getRow() {
-        return row;
+    public int getRowNumber() {
+        return rowNumber;
     }
 
-    public int getColumn() {
-        return column;
+    public int getColumnNumber() {
+        return columnNumber;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(this.score);
     }
 }

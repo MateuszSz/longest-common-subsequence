@@ -3,6 +3,9 @@ package bioinfa.algorithm.sequence;
 
 public class SmithWaterman extends SequenceAlignment {
 
+    private static final int MATCH = 1;
+    private static final int MISMATCH = -1;
+    private static final int SPACE = -1;
     private Cell highScoreCell;
 
     public SmithWaterman(String sequence1, String sequence2) {
@@ -16,14 +19,14 @@ public class SmithWaterman extends SequenceAlignment {
 
     protected void fillInCell(Cell currentCell, Cell cellAbove, Cell cellToLeft,
                               Cell cellAboveLeft) {
-        int rowSpaceScore = cellAbove.getScore() + space;
-        int colSpaceScore = cellToLeft.getScore() + space;
+        int rowSpaceScore = cellAbove.getScore() + SPACE;
+        int colSpaceScore = cellToLeft.getScore() + SPACE;
         int score = cellAboveLeft.getScore();
-        if (sequence2.charAt(currentCell.getRow() - 1) == sequence1
-                .charAt(currentCell.getColumn() - 1)) {
-            score += match;
+        if (sequence2.charAt(currentCell.getRowNumber() - 1) == sequence1
+                .charAt(currentCell.getColumnNumber() - 1)) {
+            score += MATCH;
         } else {
-            score += mismatch;
+            score += MISMATCH;
         }
         if (rowSpaceScore >= colSpaceScore) {
             setScore(currentCell, cellAbove, cellAboveLeft, rowSpaceScore, score);
