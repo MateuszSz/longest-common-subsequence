@@ -55,7 +55,7 @@ public class NeedlemanWunsch extends SequenceAlignment {
         return initialScore;
     }
 
-    protected Cell getInitialPointer(int row, int column) {
+    protected Cell getInitialCell(int row, int column) {
         Cell initialPointer = null;
         if (column == 0 && row != 0) {
             initialPointer = scoreTable[row - 1][column];

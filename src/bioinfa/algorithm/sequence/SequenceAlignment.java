@@ -18,7 +18,7 @@ public abstract class SequenceAlignment {
         this.computeAlignment();
     }
 
-    protected abstract Cell getInitialPointer(int row, int col);
+    protected abstract Cell getInitialCell(int row, int col);
 
     protected abstract int getInitialScore(int row, int col);
 
@@ -56,7 +56,7 @@ public abstract class SequenceAlignment {
             for (int j = 0; j < scoreTable[i].length; j++) {
                 Cell cell = new Cell(i, j);
                 cell.setScore(getInitialScore(i, j));
-                cell.setPreviousCell(getInitialPointer(i, j));
+                cell.setPreviousCell(getInitialCell(i, j));
                 scoreTable[i][j] = cell;
             }
         }

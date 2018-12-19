@@ -63,7 +63,7 @@ public class SmithWaterman extends SequenceAlignment {
     }
 
     @Override
-    protected Cell getInitialPointer(int row, int col) {
+    protected Cell getInitialCell(int row, int col) {
         return null;
     }
 
